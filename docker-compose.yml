@@ -1,0 +1,32 @@
+services:
+  # Aplicación principal
+  maverik-vector-store:
+    build: .
+    container_name: maverik-vector-store
+    env_file:
+      - .env
+    volumes:
+      - ./files:/app/files:ro
+      - ./embedding_cache:/app/embedding_cache
+      - ./logs:/app/logs
+    restart: no
+    command: python scripts/ingest.py
+
+  # Servicio de búsqueda interactiva
+  search-interactive:
+    build: .
+    container_name: maverik-search
+    env_file:
+      - .env
+    volumes:
+      - ./embedding_cache:/app/embedding_cache:ro
+    restart: "no"
+    stdin_open: true
+    tty: true
+    command: python scripts/search.py
+    profiles:
+      - search
+
+volumes:
+  embedding_cache:
+    driver: local

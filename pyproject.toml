@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "maverik-vector-store"
+version = "0.1.0"
+description = "Sistema de almacenamiento vectorial para documentos financieros"
+authors = ["Maverik Team <maverik@example.com>"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+langchain = "^0.2.16"
+langchain-community = "^0.2.16"
+langchain-mongodb = "^0.1.9"
+langchain-openai = "^0.1.23"
+pypdf = "^4.3.1"
+pymongo = "^4.8.0"
+python-dotenv = "^1.0.1"
+pydantic = "^2.8.2"
+pydantic-settings = "^2.4.0"
+jq = "^1.7.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+pytest-asyncio = "^0.21.0"
+black = "^24.0.0"
+isort = "^5.12.0"
+flake8 = "^7.0.0"
+mypy = "^1.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+ingest = "scripts.ingest:main"
+search = "scripts.search:main"
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
