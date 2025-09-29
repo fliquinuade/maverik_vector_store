@@ -68,6 +68,11 @@ embedding_cache/
 logs/
 *.log
 
+# Directorio files: mantener estructura pero excluir contenido
+files/*
+!files/.gitkeep
+!files/README.md
+
 # Credenciales y configuración sensible
 .env.local
 .env.production
