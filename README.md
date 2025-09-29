@@ -1,6 +1,20 @@
 
 # Maverik Vector Store - Versión Dockerizada
 
+## Características
+
+- **Carga de Documentos**: Utiliza `langchain_community` para cargar documentos PDF y JSON en el sistema de almacenamiento de vectores.
+- **Generación de Embeddings**: Usa el modelo de embeddings de OpenAI para convertir el texto en vectores de alta dimensión.
+- **Integración con MongoDB**: Almacena y recupera los vectores de los documentos y sus metadatos en MongoDB.
+- **División de Documentos**: Divide textos largos en fragmentos manejables usando el divisor recursivo de caracteres de LangChain.
+
+## Requisitos
+
+- Python 3.8 o superior
+- Una instancia de MongoDB, preferentemente en Mongo Atlas.
+- Clave de API de OpenAI
+- Cuenta en Google Colabs
+
 ## 🚀 Migración Completada
 
 Este proyecto ha sido exitosamente migrado desde un Jupyter Notebook de Google Colab a una aplicación Python dockerizada y modular. 
@@ -80,6 +94,7 @@ maverik_vector_store/
 
 ```bash
 # Clonar/navegar al proyecto
+git clone https://github.com/abreuerUade/maverik_vector_store.git
 cd maverik_vector_store
 
 # Copiar variables de entorno
@@ -238,20 +253,6 @@ python -m pytest tests/ --cov=src
 ## 🐳 Comandos Docker
 
 ```bash
-# Construcción de imagen
-docker build -t maverik-vector-store .
-
-# Ejecución simple con ingesta
-docker run --env-file .env \
-  -v ./files:/app/files:ro \
-  -v ./embedding_cache:/app/embedding_cache \
-  maverik-vector-store
-
-# Búsqueda interactiva
-docker run -it --env-file .env \
-  -v ./embedding_cache:/app/embedding_cache:ro \
-  maverik-vector-store python scripts/search.py
-
 # Docker Compose (recomendado)
 docker-compose up --build                    # Ejecutar ingesta
 docker-compose --profile search up           # Modo búsqueda interactiva
@@ -361,26 +362,6 @@ rm -rf embedding_cache/*
 python -c "from src.embedding.openai_embeddings import OpenAIEmbeddingManager; OpenAIEmbeddingManager().clear_cache()"
 ```
 
-## 📈 Próximos Pasos
-
-### Fase 1 (Inmediata)
-- [ ] **API REST** con FastAPI
-- [ ] **Interfaz web** para búsquedas
-- [ ] **CI/CD pipeline**
-- [ ] **Más tests** de integración
-
-### Fase 2 (Corto plazo)
-- [ ] **Multilenguaje** (más idiomas)
-- [ ] **Búsqueda híbrida** (texto + vectorial)
-- [ ] **Sistema de recomendaciones**
-- [ ] **Métricas avanzadas**
-
-### Fase 3 (Mediano plazo)
-- [ ] **Arquitectura de microservicios**
-- [ ] **Escalabilidad horizontal**
-- [ ] **ML pipeline** automatizado
-- [ ] **Deployment en cloud**
-
 ## 🤝 Contribución
 
 1. Fork del repositorio
@@ -394,71 +375,4 @@ python -c "from src.embedding.openai_embeddings import OpenAIEmbeddingManager; O
 Este proyecto está bajo la licencia MIT. Ver `LICENSE` para más detalles.
 
 ---
-
-**🎉 ¡Migración completada exitosamente!**
-
-El proyecto ahora es:
-- ✅ **Portable** (sin dependencias de Colab)
-- ✅ **Seguro** (credenciales protegidas)
-- ✅ **Escalable** (arquitectura modular)
-- ✅ **Mantenible** (código limpio y testeado)
-- ✅ **Dockerizado** (despliegue consistente)
-
-## Características
-
-- **Carga de Documentos**: Utiliza `langchain_community` para cargar documentos PDF y JSON en el sistema de almacenamiento de vectores.
-- **Generación de Embeddings**: Usa el modelo de embeddings de OpenAI para convertir el texto en vectores de alta dimensión.
-- **Integración con MongoDB**: Almacena y recupera los vectores de los documentos y sus metadatos en MongoDB.
-- **División de Documentos**: Divide textos largos en fragmentos manejables usando el divisor recursivo de caracteres de LangChain.
-
-## Requisitos
-
-- Python 3.8 o superior
-- Una instancia de MongoDB, preferentemente en Mongo Atlas.
-- Clave de API de OpenAI
-- Cuenta en Google Colabs
-
-## Configuración recomendada
-
-1. **Clonar el repositorio:**
-   ```bash
-   git clone https://github.com/abreuerUade/maverik_vector_store.git
-   cd maverik_vector_store
-   ```
-
-2. **Carga en Google Drive:**
-
-
-3. **Configurar MongoDB:**
-   Asegúrate de tener una instancia de MongoDB en funcionamiento y accesible. Actualiza la cadena de conexión de MongoDB en la parte correspondiente del código. Configurar el Vector Search con el siguiente objeto JSON
-   ```bash
-     "fields": [
-       {
-         "numDimensions": 1536,
-         "path": "embedding",
-         "similarity": "cosine",
-         "type": "vector"
-       }
-     ]
-  
-
-4. **Configurar la clave de API de OpenAI:**
-   Configura tu clave de API de OpenAI como una variable de entorno:
-   ```bash
-   export OPENAI_API_KEY='tu-clave-api-aqui'
-   ```
-
-5. **Ejecutar el notebook:**
-   Ejecutar preferentemente con una instancia T4 de Google Colab
-
-## Uso
-
-- **Cargar Documentos**: Carga archivos PDF o JSON en el sistema utilizando los cargadores de documentos incorporados de LangChain.
-- **Generar Embeddings**: Utiliza los modelos de embeddings de OpenAI para transformar el texto en vectores.
-- **Almacenar y Recuperar en MongoDB**: Los vectores y los metadatos relacionados se almacenan en MongoDB para su posterior recuperación y consulta.
-
-## Personalización
-
-- Se puede modificar la lógica de división de documentos o el modelo utilizado para la generación de embeddings según tus necesidades.
-- Los nombres de la colección y la base de datos de MongoDB se pueden ajustar en el archivo de configuración.
-
+**⏰ Última actualización:** 29 de septiembre de 2025
